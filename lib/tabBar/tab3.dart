@@ -12,8 +12,8 @@ class _TabState extends State<Tab3> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: PageC(),
-      bottomNavigationBar: Home()
+      body: PageC(),//建议以组件形式引入
+      bottomNavigationBar: Home(active: 2)
     );
   }
 }

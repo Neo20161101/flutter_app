@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-class HomePage extends StatelessWidget {
+class PageD extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('pageA'),
+          title: new Text('pageD'),
         ),
         body: new ListView(
           children: <Widget>[
@@ -14,18 +14,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-
 }
 Widget titleSection = new Container(
   padding: const EdgeInsets.only(top: 32.0,bottom: 32.0),
   child: new Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: <Widget>[
-      new Column(children: <Widget>[new Container(child: new Text('1'),)],),
-      new Column(children: <Widget>[new Container(child: new Text('2'),)],),
-      new Column(children: <Widget>[new Container(child: new Text('3'),)],),
-      new Column(children: <Widget>[new Container(child: new Text('4'),)],),
-      new Column(children: <Widget>[new Container(child: new Text('5'),)],),
+      new Column(children: <Widget>[new Container(child: new Text('11'),)],),
+      new Column(children: <Widget>[new Container(child: new Text('12'),)],),
+      new Column(children: <Widget>[new Container(child: new Text('13'),)],),
+      new Column(children: <Widget>[new Container(child: new Text('14'),)],),
+      new Column(children: <Widget>[new Container(child: new Text('15'),)],),
     ],
   ),
 );

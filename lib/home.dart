@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 import './tabBar/tab1.dart';
 import './tabBar/tab2.dart';
 import './tabBar/tab3.dart';
+import './tabBar/tab4.dart';
+import './tabBar/tab5.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key,active: false}) : super(key: key);
+  Home({Key key,this.active: 0}) : super(key: key);
   @override
+  final int active;
   _TabState createState() => new _TabState();
 }
 
 class _TabState extends State<Home> {
-//  final bool active;
   int _selectedIndex = 0;
+
+  didChangeDependencies(){//didMount生命周期
+    print('didMount生命周期');
+    setState(() {
+      _selectedIndex = widget.active;
+    });
+  }
+
+  deactive() { //其它组件Navigator跳转到这的函数,子组件可能不会触发
+    print('其它组件Navigator跳转到这的函数,子组件可能不会触发');
+  }
   void _onItemTapped(int index) {
-    print(Home);
     switch (index){
       case 0:
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Tab1()));
@@ -25,16 +37,19 @@ class _TabState extends State<Home> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Tab3()));
         break;
       case 3:
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Tab3()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Tab4()));
         break;
       case 4:
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Tab3()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => Tab5()));
+        break;
+      default:
+        Navigator.pushNamed(context, '/notFound');
         break;
     }
 
-    setState(() {
-      _selectedIndex = index;
-    });
+//    setState(() {
+//      _selectedIndex = index;
+//    });
   }
   @override
   Widget build(BuildContext context) {

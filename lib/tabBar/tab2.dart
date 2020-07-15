@@ -13,8 +13,8 @@ class _TabState extends State<Tab2> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: AppBarBottomSample(),
-      bottomNavigationBar: Home()
+      body: AppBarBottomSample(),//建议以组件形式引入
+      bottomNavigationBar: Home(active: 1)
     );
   }
 }
