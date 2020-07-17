@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../home.dart';
+import 'tabBar.dart';
 import '../pages/pageB.dart';
 
 class Tab2 extends StatefulWidget {
