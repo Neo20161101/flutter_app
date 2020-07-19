@@ -2,7 +2,7 @@ import 'package:mobx/mobx.dart';
 
 // Include generated file
 part 'store.g.dart';
-final counter = Counter(); // Instantiate the store
+final stateStore = Counter(); // Instantiate the store
 // This is the class used by rest of your codebase
 class Counter = _Counter with _$Counter;
 
