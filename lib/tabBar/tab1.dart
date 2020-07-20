@@ -23,7 +23,7 @@ class _TabState extends State<Tab1> {
   }
 
   deactive() { //其它组件Navigator跳转到这的函数,子组件可能不会触发
-    print('其它组件Navigator跳转到这的函数,子组件可能不会触发');
+    print('条件苛刻：其它组件Navigator跳转到这的函数,子组件可能不会触发');
   }
   @override
   Widget build(BuildContext context) {
