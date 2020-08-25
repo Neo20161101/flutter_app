@@ -13,6 +13,7 @@ class PageE extends StatefulWidget {
 class _PageE extends State<PageE> {
   List data = [];
   final List<int> colorCodes = <int>[1,2];
+  final _stateStore = stateStore();
 
   void initState () {
     super.initState();
@@ -66,7 +67,7 @@ class _PageE extends State<PageE> {
               new Container(
                 child: Observer(
                   builder: (_) => Text(
-                    '${stateStore.value}',
+                    '${_stateStore.value}',
                     style: Theme.of(context).textTheme.display1,
                   ),
                 ),
@@ -130,7 +131,7 @@ class _PageE extends State<PageE> {
             new Container(
               child: new RaisedButton(
                 onPressed: () {
-                  stateStore.increment();
+                  _stateStore.increment();
                 },
                 child: new Text('moBx状态变化'),
               ),

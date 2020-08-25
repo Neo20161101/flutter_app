@@ -38,10 +38,10 @@ class _HomePage extends State<HomePage> {
   void _handleGetTags() async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
+        importance: Importance.max, priority: Priority.high, ticker: 'ticker');
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         0, 'plain title', 'plain body', platformChannelSpecifics,
         payload: 'item x');
@@ -56,7 +56,7 @@ class _HomePage extends State<HomePage> {
     var iOSPlatformChannelSpecifics =
     IOSNotificationDetails();
     NotificationDetails platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android:androidPlatformChannelSpecifics, iOS:iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(
         0,
         'scheduled title',
@@ -74,9 +74,9 @@ class _HomePage extends State<HomePage> {
     var iOSPlatformChannelSpecifics =
     IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android:androidPlatformChannelSpecifics, iOS:iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeating title',
-        'repeating body', RepeatInterval.EveryMinute, platformChannelSpecifics);
+        'repeating body', RepeatInterval.everyMinute, platformChannelSpecifics);
 
   }
 
@@ -88,7 +88,7 @@ class _HomePage extends State<HomePage> {
     var iOSPlatformChannelSpecifics =
     IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android:androidPlatformChannelSpecifics, iOS:iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
         0,
         'show daily title',
@@ -106,12 +106,12 @@ class _HomePage extends State<HomePage> {
     var iOSPlatformChannelSpecifics =
     IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android:androidPlatformChannelSpecifics, iOS:iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(
         0,
         'show weekly title',
         'Weekly notification shown on Monday at approximately ${time.hour}:${time.minute}:${time.second}',
-        Day.Monday,
+        Day.monday,
         time,
         platformChannelSpecifics);
 
@@ -133,21 +133,21 @@ class _HomePage extends State<HomePage> {
     AndroidNotificationDetails firstNotificationAndroidSpecifics =
     AndroidNotificationDetails(
         groupChannelId, groupChannelName, groupChannelDescription,
-        importance: Importance.Max,
-        priority: Priority.High,
+        importance: Importance.max,
+        priority: Priority.high,
         groupKey: groupKey);
     NotificationDetails firstNotificationPlatformSpecifics =
-    NotificationDetails(firstNotificationAndroidSpecifics, null);
+    NotificationDetails(android:firstNotificationAndroidSpecifics);
     await flutterLocalNotificationsPlugin.show(1, 'Alex Faarborg',
         'You will not believe...', firstNotificationPlatformSpecifics);
     AndroidNotificationDetails secondNotificationAndroidSpecifics =
     AndroidNotificationDetails(
         groupChannelId, groupChannelName, groupChannelDescription,
-        importance: Importance.Max,
-        priority: Priority.High,
+        importance: Importance.max,
+        priority: Priority.high,
         groupKey: groupKey);
     NotificationDetails secondNotificationPlatformSpecifics =
-    NotificationDetails(secondNotificationAndroidSpecifics, null);
+    NotificationDetails(android:secondNotificationAndroidSpecifics);
     await flutterLocalNotificationsPlugin.show(
         2,
         'Jeff Chang',
@@ -169,7 +169,7 @@ class _HomePage extends State<HomePage> {
         groupKey: groupKey,
         setAsGroupSummary: true);
     NotificationDetails platformChannelSpecifics =
-    NotificationDetails(androidPlatformChannelSpecifics, null);
+    NotificationDetails(android:androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         3, 'Attention', 'Two new messages', platformChannelSpecifics);
   }
