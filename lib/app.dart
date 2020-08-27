@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/subjects.dart';
+//import 'package:rxdart/subjects.dart';
 
 import './common/notFound/notFound.dart';
 import 'tabBar/tab1.dart';
@@ -66,17 +66,39 @@ class _MyApp extends State<MyApp> {
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: selectNotification);//通知启动后，点击通知触发导航到另一个页面，并显示与通知关联的有效负载
   }
-  final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-  BehaviorSubject<ReceivedNotification>();
-
-  final BehaviorSubject<String> selectNotificationSubject =
-  BehaviorSubject<String>();
+//  final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
+//  BehaviorSubject<ReceivedNotification>();
+//
+//  final BehaviorSubject<String> selectNotificationSubject =
+//  BehaviorSubject<String>();
 
   //对于较旧的 iOS 版本，需要处理回调
   Future onDidReceiveLocalNotification(int id, String title, String body, String payload) async {
     // display a dialog with the notification details, tap ok to go to another page
-    didReceiveLocalNotificationSubject.add(ReceivedNotification(
-        id: id, title: title, body: body, payload: payload));
+//    didReceiveLocalNotificationSubject.add(ReceivedNotification(
+//        id: id, title: title, body: body, payload: payload));
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: [
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('Ok'),
+            onPressed: () async {
+              Navigator.of(context, rootNavigator: true).pop();
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SecondScreen(payload),
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    );
   }
 
 //通知启动后，点击通知触发导航到另一个页面，并显示与通知关联的有效负载
@@ -84,25 +106,29 @@ class _MyApp extends State<MyApp> {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
-    selectNotificationSubject.add(payload);
+//    selectNotificationSubject.add(payload);
+    await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SecondScreen(payload)),
+    );
   }
 }
 
 
 
-class ReceivedNotification {
-  final int id;
-  final String title;
-  final String body;
-  final String payload;
-
-  ReceivedNotification({
-    @required this.id,
-    @required this.title,
-    @required this.body,
-    @required this.payload,
-  });
-}
+//class ReceivedNotification {
+//  final int id;
+//  final String title;
+//  final String body;
+//  final String payload;
+//
+//  ReceivedNotification({
+//    @required this.id,
+//    @required this.title,
+//    @required this.body,
+//    @required this.payload,
+//  });
+//}
 
 class SecondScreen extends StatefulWidget {
   SecondScreen(this.payload);

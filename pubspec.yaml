@@ -38,6 +38,7 @@ dependencies:
   flutter_local_notifications: ^1.5.0-beta.8
   rxdart: ^0.24.1
   timezone: ^0.5.7
+  #用于获取 os 的本地时区
   flutter_native_timezone: ^1.0.4
 
 dev_dependencies:

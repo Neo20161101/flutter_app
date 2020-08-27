@@ -32,7 +32,9 @@ class _HomePage extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    tz.initializeTimeZones();
     _configureLocalTimeZone();
+    _requestPermissions();
   }
 
   @override
@@ -42,9 +44,28 @@ class _HomePage extends State<HomePage> {
     super.dispose();
   }
 
+  //ios mac 调用权限
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        MacOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
   // 设置默认的本地位置/时区.
   Future<void> _configureLocalTimeZone() async {
-    tz.initializeTimeZones();
     String timezone;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
@@ -52,6 +73,7 @@ class _HomePage extends State<HomePage> {
     } on PlatformException {
       timezone = 'Failed to get the timezone.';
     }
+    print("timezone,"+timezone);
     tz.setLocalLocation(tz.getLocation(timezone));
   }
 
@@ -59,10 +81,18 @@ class _HomePage extends State<HomePage> {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
         importance: Importance.max, priority: Priority.high, ticker: 'ticker');
-    var platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    var iOSPlatformChannelSpecifics =
+    IOSNotificationDetails(subtitle: 'the subtitle');
+    var macOSPlatformChannelSpecifics =
+    MacOSNotificationDetails(subtitle: 'the subtitle');
+    var platformChannelSpecifics = NotificationDetails(
+        android:androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics, macOS: macOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
+        0,
+        'title of notification with a subtitle',
+        'body of notification with a subtitle',
+        platformChannelSpecifics,
         payload: 'item x');
   }
 
@@ -80,18 +110,18 @@ class _HomePage extends State<HomePage> {
         UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  void _handlePromptForPushPermission() async { //定期显示具有指定间隔的通知
+  Future<void> _handlePromptForPushPermission() async { //定期显示具有指定间隔的通知
     // Show a notification every minute with the first appearance happening a minute after invoking the method
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'repeating channel id',
         'repeating channel name',
         'repeating description');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+
+    var platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeating title',
-        'repeating body', RepeatInterval.everyMinute, platformChannelSpecifics);
+        'repeating body', RepeatInterval.everyMinute, platformChannelSpecifics,
+        androidAllowWhileIdle: true);
   }
 
   void _handleGetPermissionSubscriptionState() async {
@@ -131,9 +161,9 @@ class _HomePage extends State<HomePage> {
         platformChannelSpecifics);
   }
 
-  void _handleLogoutEmail() async {
+  void _handleLogoutEmail() async { //检索挂起的通知请求
     var pendingNotificationRequests =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    await flutterLocalNotificationsPlugin.pendingNotificationRequests();
   }
 
   void _handleConsent() async {
