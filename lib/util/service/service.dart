@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
 
-Map header = {"loginSource": "IOS", 'content-type': 'application/json'};
+var header = {"loginSource": "IOS", 'content-type': 'application/json'};
 
 class Service {
   fetch(context, url, body, method) async {

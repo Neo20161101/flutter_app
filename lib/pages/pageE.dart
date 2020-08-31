@@ -119,8 +119,9 @@ class _PageE extends State<PageE> {
                 child: new RaisedButton(
                   onPressed: () {
 //                  Locale myLocale = Localizations.localeOf(context);//获取设备语言进行国际化
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                        content: new Text('sad'), backgroundColor: Colors.red));
+                    CircularProgressIndicator();
+                    // Scaffold.of(context).showSnackBar(SnackBar(
+                    //     content: new Text('sad'), backgroundColor: Colors.red));
                   },
                   child: new Text('点击消息框'),
                 ),
