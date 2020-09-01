@@ -3,18 +3,20 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-//import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
-
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
   @override
   _HomePage createState() => new _HomePage();
 }
-
 
 class _HomePage extends State<HomePage> {
   String _debugLabelString = "";
@@ -25,103 +27,143 @@ class _HomePage extends State<HomePage> {
   // CHANGE THIS parameter to true if you want to test GDPR privacy consent
   bool _requireConsent = true;
 
+
+
   @override
   void initState() {
     super.initState();
+    tz.initializeTimeZones();
+    _configureLocalTimeZone();
+    _requestPermissions();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-
+  @override
+  void dispose() {
+//    didReceiveLocalNotificationSubject.close();
+//    selectNotificationSubject.close();
+    super.dispose();
   }
 
-  void _handleGetTags() async {
+  //ios mac 调用权限
+  void _requestPermissions() {
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        MacOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+  }
+
+  // 设置默认的本地位置/时区.
+  Future<void> _configureLocalTimeZone() async {
+    String timezone;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      timezone = await FlutterNativeTimezone.getLocalTimezone();
+    } on PlatformException {
+      timezone = 'Failed to get the timezone.';
+    }
+    print("timezone,"+timezone);
+    tz.setLocalLocation(tz.getLocation(timezone));
+  }
+
+  void _handleGetTags() async { //显示通知
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'your channel id', 'your channel name', 'your channel description',
-        importance: Importance.Max, priority: Priority.High, ticker: 'ticker');
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+        importance: Importance.max, priority: Priority.high, ticker: 'ticker');
+    var iOSPlatformChannelSpecifics =
+    IOSNotificationDetails(subtitle: 'the subtitle');
+    var macOSPlatformChannelSpecifics =
+    MacOSNotificationDetails(subtitle: 'the subtitle');
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android:androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics, macOS: macOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-        0, 'plain title', 'plain body', platformChannelSpecifics,
+        0,
+        'title of notification with a subtitle',
+        'body of notification with a subtitle',
+        platformChannelSpecifics,
         payload: 'item x');
   }
 
-  void _handleSendTags() async {
-    var scheduledNotificationDateTime =
-    DateTime.now().add(Duration(seconds: 5));
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('your other channel id',
-        'your other channel name', 'your other channel description');
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
-    NotificationDetails platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(
+  void _handleSendTags() async { //安排通知
+    await flutterLocalNotificationsPlugin.zonedSchedule(
         0,
         'scheduled title',
         'scheduled body',
-        scheduledNotificationDateTime,
-        platformChannelSpecifics);
-
+        tz.TZDateTime.now(tz.local).add(Duration(seconds: 5)),
+        NotificationDetails(
+            android: AndroidNotificationDetails('your channel id',
+                'your channel name', 'your channel description')),
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+        UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  void _handlePromptForPushPermission() async {
+  Future<void> _handlePromptForPushPermission() async { //定期显示具有指定间隔的通知
     // Show a notification every minute with the first appearance happening a minute after invoking the method
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('repeating channel id',
-        'repeating channel name', 'repeating description');
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeating title',
-        'repeating body', RepeatInterval.EveryMinute, platformChannelSpecifics);
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'repeating channel id',
+        'repeating channel name',
+        'repeating description');
 
+    var platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.periodicallyShow(0, 'repeating title',
+        'repeating body', RepeatInterval.everyMinute, platformChannelSpecifics,
+        androidAllowWhileIdle: true);
   }
 
   void _handleGetPermissionSubscriptionState() async {
     var time = Time(10, 0, 0);
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('repeatDailyAtTime channel id',
-        'repeatDailyAtTime channel name', 'repeatDailyAtTime description');
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'repeatDailyAtTime channel id',
+        'repeatDailyAtTime channel name',
+        'repeatDailyAtTime description');
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
         0,
         'show daily title',
         'Daily notification shown at approximately ${time.hour}:${time.minute}:${time.second}',
         time,
         platformChannelSpecifics);
-
   }
 
   void _handleSetEmail() async {
     var time = Time(10, 0, 0);
-    var androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('show weekly channel id',
-        'show weekly channel name', 'show weekly description');
-    var iOSPlatformChannelSpecifics =
-    IOSNotificationDetails();
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'show weekly channel id',
+        'show weekly channel name',
+        'show weekly description');
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
-        androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(
         0,
         'show weekly title',
         'Weekly notification shown on Monday at approximately ${time.hour}:${time.minute}:${time.second}',
-        Day.Monday,
+        Day.monday,
         time,
         platformChannelSpecifics);
-
-
   }
 
-  void _handleLogoutEmail() async {
+  void _handleLogoutEmail() async { //检索挂起的通知请求
     var pendingNotificationRequests =
-        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-
+    await flutterLocalNotificationsPlugin.pendingNotificationRequests();
   }
 
   void _handleConsent() async {
@@ -131,23 +173,23 @@ class _HomePage extends State<HomePage> {
     String groupChannelDescription = 'grouped channel description';
 // example based on https://developer.android.com/training/notify-user/group.html
     AndroidNotificationDetails firstNotificationAndroidSpecifics =
-    AndroidNotificationDetails(
-        groupChannelId, groupChannelName, groupChannelDescription,
-        importance: Importance.Max,
-        priority: Priority.High,
-        groupKey: groupKey);
+        AndroidNotificationDetails(
+            groupChannelId, groupChannelName, groupChannelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            groupKey: groupKey);
     NotificationDetails firstNotificationPlatformSpecifics =
-    NotificationDetails(firstNotificationAndroidSpecifics, null);
+        NotificationDetails(android: firstNotificationAndroidSpecifics);
     await flutterLocalNotificationsPlugin.show(1, 'Alex Faarborg',
         'You will not believe...', firstNotificationPlatformSpecifics);
     AndroidNotificationDetails secondNotificationAndroidSpecifics =
-    AndroidNotificationDetails(
-        groupChannelId, groupChannelName, groupChannelDescription,
-        importance: Importance.Max,
-        priority: Priority.High,
-        groupKey: groupKey);
+        AndroidNotificationDetails(
+            groupChannelId, groupChannelName, groupChannelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            groupKey: groupKey);
     NotificationDetails secondNotificationPlatformSpecifics =
-    NotificationDetails(secondNotificationAndroidSpecifics, null);
+        NotificationDetails(android: secondNotificationAndroidSpecifics);
     await flutterLocalNotificationsPlugin.show(
         2,
         'Jeff Chang',
@@ -158,18 +200,16 @@ class _HomePage extends State<HomePage> {
     List<String> lines = List<String>();
     lines.add('Alex Faarborg  Check this out');
     lines.add('Jeff Chang    Launch Party');
-    InboxStyleInformation inboxStyleInformation = InboxStyleInformation(
-        lines,
-        contentTitle: '2 new messages',
-        summaryText: 'janedoe@example.com');
+    InboxStyleInformation inboxStyleInformation = InboxStyleInformation(lines,
+        contentTitle: '2 new messages', summaryText: 'janedoe@example.com');
     AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails(
-        groupChannelId, groupChannelName, groupChannelDescription,
-        styleInformation: inboxStyleInformation,
-        groupKey: groupKey,
-        setAsGroupSummary: true);
+        AndroidNotificationDetails(
+            groupChannelId, groupChannelName, groupChannelDescription,
+            styleInformation: inboxStyleInformation,
+            groupKey: groupKey,
+            setAsGroupSummary: true);
     NotificationDetails platformChannelSpecifics =
-    NotificationDetails(androidPlatformChannelSpecifics, null);
+        NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
         3, 'Attention', 'Two new messages', platformChannelSpecifics);
   }
@@ -177,43 +217,30 @@ class _HomePage extends State<HomePage> {
   void _handleSetLocationShared() async {
     // cancel the notification with id value of zero
     await flutterLocalNotificationsPlugin.cancel(0);
-
   }
 
   void _handleDeleteTag() async {
     await flutterLocalNotificationsPlugin.cancelAll();
-
   }
 
   void _handleSetExternalUserId() async {
     print("Setting external user ID");
-
   }
 
-  void _handleRemoveExternalUserId() async {
-
-
-  }
+  void _handleRemoveExternalUserId() async {}
 
   void _handleSendNotification() async {
     var notificationAppLaunchDetails =
-    await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
   }
 
-  void _handleSendSilentNotification() async {
+  void _handleSendSilentNotification() async {}
 
-  }
+  oneSignalInAppMessagingTriggerExamples() async {}
 
-  oneSignalInAppMessagingTriggerExamples() async {
+  oneSignalOutcomeEventsExamples() async {}
 
-  }
-
-  oneSignalOutcomeEventsExamples() async {
-
-  }
-
-  Future<void> outcomeAwaitExample() async {
-  }
+  Future<void> outcomeAwaitExample() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -252,20 +279,20 @@ class _HomePage extends State<HomePage> {
                     )
                   ]),
                   new TableRow(children: [
+                    new OneSignalButton("显示特定日期和时间上的每周通知", _handleSetEmail,
+                        !_enableConsentButton)
+                  ]),
+                  new TableRow(children: [
                     new OneSignalButton(
-                        "显示特定日期和时间上的每周通知", _handleSetEmail, !_enableConsentButton)
+                        "检索挂起的通知请求", _handleLogoutEmail, !_enableConsentButton)
                   ]),
                   new TableRow(children: [
-                    new OneSignalButton("检索挂起的通知请求", _handleLogoutEmail,
+                    new OneSignalButton(
+                        "[仅安卓]分组通知", _handleConsent, !_enableConsentButton)
+                  ]),
+                  new TableRow(children: [
+                    new OneSignalButton("取消/删除通知", _handleSetLocationShared,
                         !_enableConsentButton)
-                  ]),
-                  new TableRow(children: [
-                    new OneSignalButton("[仅安卓]分组通知", _handleConsent,
-                        !_enableConsentButton)
-                  ]),
-                  new TableRow(children: [
-                    new OneSignalButton("取消/删除通知",
-                        _handleSetLocationShared, !_enableConsentButton)
                   ]),
                   new TableRow(children: [
                     new OneSignalButton(
@@ -300,12 +327,12 @@ class _HomePage extends State<HomePage> {
                     )
                   ]),
                   new TableRow(children: [
-                    new OneSignalButton(
-                        "设置外部用户ID", _handleSetExternalUserId, !_enableConsentButton)
+                    new OneSignalButton("设置外部用户ID", _handleSetExternalUserId,
+                        !_enableConsentButton)
                   ]),
                   new TableRow(children: [
-                    new OneSignalButton(
-                        "删除外部用户ID", _handleRemoveExternalUserId, !_enableConsentButton)
+                    new OneSignalButton("删除外部用户ID", _handleRemoveExternalUserId,
+                        !_enableConsentButton)
                   ]),
                   new TableRow(children: [
                     new Container(
