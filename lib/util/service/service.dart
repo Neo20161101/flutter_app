@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import '../../common/cupertinoActivity/Loading.dart';
 
 var header = {"loginSource": "IOS", 'content-type': 'application/json'};
 
 class Service {
   fetch(context, url, body, method) async {
-    print('准备请求');
+    // print('准备请求');
+    Loading.show(context);//加载loading
     final httpClient = new HttpClient();
     HttpClientRequest request;
     try {
@@ -33,6 +36,7 @@ class Service {
         String json = await response.transform(utf8.decoder).join();
 //        String responseBody = await response.transform(utf8.decoder).join();
         final data = jsonDecode(json);
+        Loading.dismiss(context);//取消loading
         this.showSnackBar(context, '请求数据成功！');
         httpClient.close();
         return data;
