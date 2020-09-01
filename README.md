@@ -36,7 +36,7 @@ Built build/app/outputs/apk/release/app-arm64-v8a-release.apk (4.6MB).
 ## 状态管理使用
 pub run build_runner build
 
-## 如果报错无效请运行 
+## 如果上述报错无效请运行 
 flutter packages pub run build_runner build
 
 ## 如果要在进行更改时使其在后台运行，请使用：

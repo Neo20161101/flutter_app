@@ -11,6 +11,7 @@ class Tab1 extends StatefulWidget {
 class _TabState extends State<Tab1> {
   initState(){//willMount生命周期
     print('initState生命周期');
+
   }
 
   didChangeDependencies(){//didMount生命周期
