@@ -38,6 +38,8 @@ dependencies:
   timezone: ^0.5.7
   #用于获取 os 的本地时区
   flutter_native_timezone: ^1.0.4
+  #获取当前设备信息
+  device_info: ^0.4.2+7
 
 dev_dependencies:
   flutter_test:

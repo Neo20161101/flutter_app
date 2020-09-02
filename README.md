@@ -34,11 +34,7 @@ flutter build apk --split-per-abi
 Built build/app/outputs/apk/release/app-armeabi-v7a-release.apk (4.2MB).
 Built build/app/outputs/apk/release/app-arm64-v8a-release.apk (4.6MB).
 
-## 状态管理使用
-pub run build_runner build
 
-## 如果要在进行更改时使其在后台运行，请使用：
-pub run build_runner watch
 
 A new Flutter application.
 
@@ -54,7 +50,11 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+## 状态管理使用
+pub run build_runner build
 
+## 如果要在进行更改时使其在后台运行，请使用：
+pub run build_runner watch
 ## 针对mobx状态需要生成files (*.g.dart).
 flutter packages pub run build_runner build
 ##实时更新files (*.g.dart).
