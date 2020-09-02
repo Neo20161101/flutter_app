@@ -37,13 +37,8 @@ Built build/app/outputs/apk/release/app-arm64-v8a-release.apk (4.6MB).
 ## 状态管理使用
 pub run build_runner build
 
-## 如果上述报错无效请运行 
-flutter packages pub run build_runner build
-
 ## 如果要在进行更改时使其在后台运行，请使用：
 pub run build_runner watch
-=======
-# flutter_app
 
 A new Flutter application.
 
@@ -66,4 +61,3 @@ flutter packages pub run build_runner build
 flutter packages pub run build_runner watch
 ##运行open iOS模拟器（已配置好Xcode）：
 open -a Simulator
->>>>>>> 95ea15f64403e54d60a5d0a8ea935aa7e71bdff3
