@@ -45,6 +45,7 @@ class Service {
             'Error getting IP address:\nHttp status ${response.statusCode}');
       }
     } catch (exception) {
+      Loading.dismiss(context);//取消loading
       this.showSnackBar(context, '服务器错误！');
     }
   }
