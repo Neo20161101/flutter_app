@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../util/store/store.dart'; // Import the store
 
 class PageD extends StatefulWidget {
@@ -11,11 +11,11 @@ class PageD extends StatefulWidget {
 }
 
 class _HomePageState extends State<PageD> {
-  final _stateStore = stateStore();
+  var _stateStore;
   @override
   void initState() {
     super.initState();
-    print(_stateStore.toString());
+    // print(_stateStore.toString());
   }
 
   @override
@@ -25,10 +25,11 @@ class _HomePageState extends State<PageD> {
 
   @override
   Widget build(BuildContext context) {
+    _stateStore = Provider.of<stateStore>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('tab4,${_stateStore.value}'),
+          title: Text('tab4,${_stateStore?.value}'),
         ),
         body: new Text('safdasfd'),
       ),

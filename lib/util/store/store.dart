@@ -10,6 +10,9 @@ abstract class TodoBase with Store {
   int value = 0;
 
   @observable
+  String token = '';
+
+  @observable
   String description = '';
 
   @observable

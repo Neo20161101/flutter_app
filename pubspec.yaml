@@ -40,6 +40,10 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   #获取当前设备信息
   device_info: ^2.0.3
+  # 状态管理设置
+  provider: ^6.0.1
+  # 持久化本地存储
+  shared_preferences: ^2.0.8
 
 dev_dependencies:
   flutter_test:

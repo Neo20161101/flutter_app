@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 import '../util/service/http.dart';
 import '../util/store/store.dart'; // Import the store
 
@@ -17,11 +18,12 @@ class PageE extends StatefulWidget {
 class _PageE extends State<PageE> {
   List data = [];
   final List<int> colorCodes = <int>[1, 2];
-  final _stateStore = stateStore();
+  var  _stateStore;
+
 
   void initState() {
     super.initState();
-    print(_stateStore.toString());
+    // print(_stateStore.toString());
   }
 
   Future<void> _onRefresh() async {
@@ -33,13 +35,15 @@ class _PageE extends State<PageE> {
   void getTest(context) async {
     final result = await http.getTest(context,
         {'shopperId': 9356, 'machineId': 5117, 'orderType': 2, 'orderId': 108});
+    print(result);
     setState(() {
       data = result;
     });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){  // 我们的store
+    _stateStore = Provider.of<stateStore>(context);
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('个人中心'),
@@ -50,7 +54,7 @@ class _PageE extends State<PageE> {
               physics: const AlwaysScrollableScrollPhysics(),
               children: <Widget>[
                 _titleSection(context),
-                _contentSection(),
+                _contentSection(context),
                 _listViewSection(data)
               ],
             )));
@@ -67,7 +71,7 @@ class _PageE extends State<PageE> {
               new Container(
                 child: Observer(
                   builder: (_) => Text(
-                    '${_stateStore.value}',
+                    '${_stateStore?.value}',
                     style: const TextStyle(fontSize: 20),
                   ),
                 ),
@@ -107,51 +111,54 @@ class _PageE extends State<PageE> {
     );
   }
 
-  Widget _contentSection() {
-    return new Container(
-      padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          new Column(
-            children: <Widget>[
-              new Container(
-                child: new RaisedButton(
-                  onPressed: () {
-//                  Locale myLocale = Localizations.localeOf(context);//获取设备语言进行国际化
+  Widget _contentSection(context) {
 
-                    // Scaffold.of(context).showSnackBar(SnackBar(
-                    //     content: new Text('sad'), backgroundColor: Colors.red));
-                  },
-                  child: new Text('点击消息框'),
+    return Observer(
+      builder: (_)=>new Container(
+        padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            new Column(
+              children: <Widget>[
+                new Container(
+                  child: new RaisedButton(
+                    onPressed: () {
+//                  Locale myLocale = Localizations.localeOf(context);//获取设备语言进行国际化
+                      print(_stateStore);
+                      // Scaffold.of(context).showSnackBar(SnackBar(
+                      //     content: new Text('sad'), backgroundColor: Colors.red));
+                    },
+                    child: new Text('点击消息框'),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          new Column(children: <Widget>[
-            new Container(
-              child: new RaisedButton(
-                onPressed: () {
-                  _stateStore.increment();
-                },
-                child: new Text('moBx状态变化'),
-              ),
-            )
-          ]),
-          new Column(
-            children: <Widget>[
+              ],
+            ),
+            new Column(children: <Widget>[
               new Container(
                 child: new RaisedButton(
                   onPressed: () {
-                    getTest(context);
+                    _stateStore.increment();
                   },
-                  child: new Text('点击请求'),
+                  child: new Text('moBx状态变化'),
                 ),
-              ),
-            ],
-          ),
-        ],
-      ),
+              )
+            ]),
+            new Column(
+              children: <Widget>[
+                new Container(
+                  child: new RaisedButton(
+                    onPressed: () {
+                      getTest(context);
+                    },
+                    child: new Text('点击请求'),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      )
     );
   }
 
@@ -162,7 +169,7 @@ class _PageE extends State<PageE> {
       child: new ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        itemCount: data.length,
+        itemCount: 0,
         itemBuilder: (context, index) {
           return ListTile(
               leading: Icon(Icons.settings),
