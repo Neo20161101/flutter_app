@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key,this.active: 0}) : super(key: key);
-  @override
+  const Home({ super.key,this.active = 0 });
   final int active;
-  _TabState createState() => new _TabState();
+  @override
+  State<Home> createState() => _TabState();
 }
 
 class _TabState extends State<Home> {
   int _selectedIndex = 0;
 
-  initState (){//willMount生命周期
+  void initState (){//willMount生命周期
     setState(() {
       _selectedIndex = widget.active;
     });
   }
 
-  didChangeDependencies(){//didMount生命周期
+  void didChangeDependencies(){//didMount生命周期
 
   }
 
-  dispose(){//离开销毁生命周期
+  void dispose(){//离开销毁生命周期
     super.dispose();
   }
   void _onItemTapped(int index) {
@@ -51,29 +51,29 @@ class _TabState extends State<Home> {
   }
   @override
   Widget build(BuildContext context) {
-    return new BottomNavigationBar(
+    return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          title: Text('首页'),
+          label: '首页',
           backgroundColor:Colors.blue,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.business),
-          title: Text('Tab2'),
+          label: 'Tab2',
           backgroundColor:Colors.blue,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          title: Text('Tab3'),
+          label: 'Tab3',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.business),
-          title: Text('Tab4'),
+          label: 'Tab4',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.account_box),
-          title: Text('我的'),
+          label: '我的',
         ),
       ],
       currentIndex: _selectedIndex,

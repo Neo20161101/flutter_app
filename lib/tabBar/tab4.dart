@@ -3,15 +3,15 @@ import 'tabBar.dart';
 import '../pages/pageD.dart';
 
 class Tab4 extends StatefulWidget {
-  Tab4({Key key}) : super(key: key);
+  const Tab4({ super.key });
   @override
-  _TabState createState() => new _TabState();
+  State<Tab4> createState() => _TabState();
 }
 
 class _TabState extends State<Tab4> {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
         body: PageD(),//建议以组件形式引入
         bottomNavigationBar: Home(active: 3)
     );

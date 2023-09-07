@@ -29,12 +29,11 @@ class Login extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextFormField(
-
                   decoration: const InputDecoration(
                     hintText: '请输入账户',
                     labelText: '账户',
                   ),
-                  validator: (String value) {
+                  validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return '请输入账户';
                     }
@@ -47,7 +46,7 @@ class Login extends StatelessWidget {
                     hintText: '请输入密码',
                     labelText: '密码',
                   ),
-                  validator: (String value) {
+                  validator: (String? value) {
                     if (value == null || value.isEmpty) {
                       return '请输入密码';
                     }
@@ -60,7 +59,7 @@ class Login extends StatelessWidget {
                     onPressed: () {
                       // Validate will return true if the form is valid, or false if
                       // the form is invalid
-                      if (_formKey.currentState?.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         // Process data.
                         onLogin(context);
                       }

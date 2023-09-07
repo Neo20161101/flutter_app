@@ -1,109 +1,60 @@
 import 'package:flutter/material.dart';
 
 class AppBarBottomSample extends StatefulWidget {
+  const AppBarBottomSample({ super.key });
   @override
-  _AppBarBottomSampleState createState() => new _AppBarBottomSampleState();
+  State<AppBarBottomSample> createState() => _AppBarBottomSampleState();
 }
 
 class _AppBarBottomSampleState extends State<AppBarBottomSample> with SingleTickerProviderStateMixin {
-  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = new TabController(vsync: this, length: choices.length);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
   void _nextPage(int delta) {
-    final int newIndex = _tabController.index + delta;
-    if (newIndex < 0 || newIndex >= _tabController.length)
-      return;
-    _tabController.animateTo(newIndex);
+
+  }
+  void _tabController() {
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('AppBar Bottom Widget'),
-        leading: new IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('AppBar Bottom Widget'),
+        leading: IconButton(
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
           onPressed: () { _nextPage(-1); },
         ),
         actions: <Widget>[
-          new IconButton(
+          IconButton(
             icon: const Icon(Icons.arrow_forward),
             tooltip: 'Next choice',
             onPressed: () { _nextPage(1); },
           ),
         ],
-        bottom: new PreferredSize(
+        bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
-          child: new Theme(
-            data: Theme.of(context).copyWith(accentColor: Colors.white),
-            child: new Container(
-              height: 48.0,
-              alignment: Alignment.center,
-              child: new TabPageSelector(controller: _tabController),
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[Colors.blue, Colors.pink],
+              ),
             ),
+            child: Text('sads'),
           ),
         ),
       ),
-      body: new TabBarView(
-        controller: _tabController,
-        children: choices.map((Choice choice) {
-          return new Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: new ChoiceCard(choice: choice),
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
-
-class Choice {
-  const Choice({ this.title, this.icon });
-  final String title;
-  final IconData icon;
-}
-
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'CAR', icon: Icons.directions_car),
-  const Choice(title: 'BICYCLE', icon: Icons.directions_bike),
-  const Choice(title: 'BOAT', icon: Icons.directions_boat),
-  const Choice(title: 'BUS', icon: Icons.directions_bus),
-  const Choice(title: 'TRAIN', icon: Icons.directions_railway),
-  const Choice(title: 'WALK', icon: Icons.directions_walk),
-];
-
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard({ Key key, this.choice }) : super(key: key);
-
-  final Choice choice;
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.bodyText1;
-    return new Card(
-      color: Colors.white,
-      child: new Center(
-        child: new Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            new Icon(choice.icon, size: 128.0, color: textStyle.color),
-            new Text(choice.title, style: textStyle),
-          ],
-        ),
-      ),
+      body: Text('AppBar Bottom Widget'),
     );
   }
 }

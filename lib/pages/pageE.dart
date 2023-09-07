@@ -1,18 +1,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import '../util/service/http.dart';
 import '../util/store/store.dart'; // Import the store
 
-final http = new Http();
+final http = Http();
 
 class PageE extends StatefulWidget {
-  const PageE({Key key, this.id}) : super(key: key);
+  const PageE({ super.key,this.id = 0 });
   final int id;
   @override
-  _PageE createState() => _PageE();
+  State<PageE> createState() => _PageE();
 }
 
 class _PageE extends State<PageE> {
@@ -44,13 +45,13 @@ class _PageE extends State<PageE> {
   @override
   Widget build(BuildContext context){  // 我们的store
     _stateStore = Provider.of<stateStore>(context);
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('个人中心'),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('个人中心'),
         ),
-        body: new RefreshIndicator(
+        body: RefreshIndicator(
             onRefresh: _onRefresh,
-            child: new ListView(
+            child: ListView(
               physics: const AlwaysScrollableScrollPhysics(),
               children: <Widget>[
                 _titleSection(context),
@@ -61,14 +62,14 @@ class _PageE extends State<PageE> {
   }
 
   Widget _titleSection(context) {
-    return new Container(
+    return Container(
       padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-      child: new Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          new Column(
+          Column(
             children: <Widget>[
-              new Container(
+              Container(
                 child: Observer(
                   builder: (_) => Text(
                     '${_stateStore?.value}',
@@ -78,31 +79,31 @@ class _PageE extends State<PageE> {
               )
             ],
           ),
-          new Column(
+          Column(
             children: <Widget>[
-              new Container(
-                child: new Text('17'),
+              Container(
+                child: Text('17'),
               )
             ],
           ),
-          new Column(
+          Column(
             children: <Widget>[
-              new Container(
-                child: new Text('18'),
+              Container(
+                child: Text('18'),
               )
             ],
           ),
-          new Column(
+          Column(
             children: <Widget>[
-              new Container(
-                child: new Text('19'),
+              Container(
+                child: Text('19'),
               )
             ],
           ),
-          new Column(
+          Column(
             children: <Widget>[
-              new Container(
-                child: new Text('20'),
+              Container(
+                child: Text('20'),
               )
             ],
           ),
@@ -114,44 +115,44 @@ class _PageE extends State<PageE> {
   Widget _contentSection(context) {
 
     return Observer(
-      builder: (_)=>new Container(
+      builder: (_)=>Container(
         padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-        child: new Row(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            new Column(
+            Column(
               children: <Widget>[
-                new Container(
-                  child: new RaisedButton(
+                Container(
+                  child: CupertinoButton(
                     onPressed: () {
 //                  Locale myLocale = Localizations.localeOf(context);//获取设备语言进行国际化
                       print(_stateStore);
                       // Scaffold.of(context).showSnackBar(SnackBar(
                       //     content: new Text('sad'), backgroundColor: Colors.red));
                     },
-                    child: new Text('点击消息框'),
+                    child: Text('点击消息框'),
                   ),
                 ),
               ],
             ),
-            new Column(children: <Widget>[
-              new Container(
-                child: new RaisedButton(
+            Column(children: <Widget>[
+              Container(
+                child: CupertinoButton(
                   onPressed: () {
                     _stateStore.increment();
                   },
-                  child: new Text('moBx状态变化'),
+                  child: Text('moBx状态变化'),
                 ),
               )
             ]),
-            new Column(
+            Column(
               children: <Widget>[
-                new Container(
-                  child: new RaisedButton(
+                Container(
+                  child: CupertinoButton(
                     onPressed: () {
                       getTest(context);
                     },
-                    child: new Text('点击请求'),
+                    child: Text('点击请求'),
                   ),
                 ),
               ],
@@ -163,10 +164,10 @@ class _PageE extends State<PageE> {
   }
 
   Widget _listViewSection(data) {
-    return new Container(
+    return Container(
       padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
 //    height: 300,
-      child: new ListView.separated(
+      child: ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemCount: 0,
@@ -183,14 +184,3 @@ class _PageE extends State<PageE> {
     );
   }
 }
-
-//List<Widget> getData() {
-//  var tempList = data.map((value) {
-//    return ListTile(
-//      leading: Image.network(value["imageUrl"]),
-//      title: Text(value["title"]),
-//      subtitle: Text(value["author"]),
-//    );
-//  });
-//  return tempList.toList();
-//}

@@ -1,5 +1,5 @@
 import 'service.dart';
-final service = new Service();
+final service = Service();
 
 class Http {
   getTest (context,body) async{

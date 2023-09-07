@@ -10,7 +10,7 @@ class Service {
   fetch(context, url, body, method) async {
     // print('准备请求');
     Loading.show(context);//加载loading
-    final httpClient = new HttpClient();
+    final httpClient = HttpClient();
     HttpClientRequest request;
     try {
       if (method == 'get') {
@@ -51,7 +51,7 @@ class Service {
   }
 
   showSnackBar(context, text) {
-    Scaffold.of(context).showSnackBar(
-        SnackBar(content: new Text(text), backgroundColor: Colors.red));
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(text), backgroundColor: Colors.red));
   }
 }
