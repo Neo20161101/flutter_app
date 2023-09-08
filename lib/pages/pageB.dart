@@ -6,7 +6,7 @@ class AppBarBottomSample extends StatefulWidget {
   State<AppBarBottomSample> createState() => _AppBarBottomSampleState();
 }
 
-class _AppBarBottomSampleState extends State<AppBarBottomSample> with SingleTickerProviderStateMixin {
+class _AppBarBottomSampleState extends State<AppBarBottomSample> {
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _AppBarBottomSampleState extends State<AppBarBottomSample> with SingleTick
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('AppBar Bottom Widget'),
+        title: const Text('AppBar Bottom Widget'),
         leading: IconButton(
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
@@ -47,14 +47,14 @@ class _AppBarBottomSampleState extends State<AppBarBottomSample> with SingleTick
           child: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: <Color>[Colors.blue, Colors.pink],
+                colors: [Colors.blue, Colors.pink],
               ),
             ),
-            child: Text('sads'),
+            child: const Text('sads'),
           ),
         ),
       ),
-      body: Text('AppBar Bottom Widget'),
+      body: const Text('AppBar Bottom Widget'),
     );
   }
 }

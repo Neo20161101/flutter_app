@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({ super.key,this.active = 0 });
+class bottomTabBar extends StatefulWidget {
+  const bottomTabBar({ super.key,this.active = 0 });
   final int active;
   @override
-  State<Home> createState() => _TabState();
+  State<bottomTabBar> createState() => _TabState();
 }
 
-class _TabState extends State<Home> {
+class _TabState extends State<bottomTabBar> {
   int _selectedIndex = 0;
 
   void initState (){//willMount生命周期

@@ -2,16 +2,17 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import '../util/store/store.dart'; // Import the store
 
 class PageD extends StatefulWidget {
+  const PageD({ super.key });
   @override
-  _HomePageState createState() => _HomePageState();
+  State<PageD> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<PageD> {
-  var _stateStore;
+  final _stateStore = StateStore();
   @override
   void initState() {
     super.initState();
@@ -25,13 +26,17 @@ class _HomePageState extends State<PageD> {
 
   @override
   Widget build(BuildContext context) {
-    _stateStore = Provider.of<stateStore>(context);
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('tab4,${_stateStore?.value}'),
+          title: Observer(
+            builder: (_) => Text(
+              'tab4,${_stateStore.value}',
+              style: const TextStyle(fontSize: 20),
+            ),
+          ),
         ),
-        body: new Text('safdasfd'),
+        body: const Text('safdasfd'),
       ),
     );
   }

@@ -46,7 +46,7 @@ class _TabState extends State<Tab1> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: HomePage(),//建议以组件形式引入,tabBar左边起第一个页面
-      bottomNavigationBar: Home(active: 0)
+      bottomNavigationBar: bottomTabBar(active: 0)
     );
   }
 }

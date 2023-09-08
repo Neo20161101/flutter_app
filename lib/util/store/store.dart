@@ -2,10 +2,10 @@ import 'package:mobx/mobx.dart';
 // Include generated file
 part 'store.g.dart';
 
-class stateStore = TodoBase with _$stateStore;
+class StateStore = TodoBase with _$StateStore;
 
 abstract class TodoBase with Store {
-  // TodoBase(this.description);
+  final greeting = Observable('Hello World');
   @observable
   int value = 0;
 

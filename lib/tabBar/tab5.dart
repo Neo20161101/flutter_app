@@ -13,7 +13,7 @@ class _TabState extends State<Tab5> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: PageE(),//建议以组件形式引入
-        bottomNavigationBar: Home(active: 4)
+        bottomNavigationBar: bottomTabBar(active: 4)
     );
   }
 }

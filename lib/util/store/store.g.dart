@@ -6,10 +6,10 @@ part of 'store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$stateStore on TodoBase, Store {
-  final _$valueAtom = Atom(name: 'TodoBase.value');
+mixin _$StateStore on TodoBase, Store {
+  late final _$valueAtom = Atom(name: 'TodoBase.value', context: context);
 
   @override
   int get value {
@@ -24,7 +24,23 @@ mixin _$stateStore on TodoBase, Store {
     });
   }
 
-  final _$descriptionAtom = Atom(name: 'TodoBase.description');
+  late final _$tokenAtom = Atom(name: 'TodoBase.token', context: context);
+
+  @override
+  String get token {
+    _$tokenAtom.reportRead();
+    return super.token;
+  }
+
+  @override
+  set token(String value) {
+    _$tokenAtom.reportWrite(value, super.token, () {
+      super.token = value;
+    });
+  }
+
+  late final _$descriptionAtom =
+      Atom(name: 'TodoBase.description', context: context);
 
   @override
   String get description {
@@ -39,7 +55,7 @@ mixin _$stateStore on TodoBase, Store {
     });
   }
 
-  final _$doneAtom = Atom(name: 'TodoBase.done');
+  late final _$doneAtom = Atom(name: 'TodoBase.done', context: context);
 
   @override
   bool get done {
@@ -54,7 +70,8 @@ mixin _$stateStore on TodoBase, Store {
     });
   }
 
-  final _$TodoBaseActionController = ActionController(name: 'TodoBase');
+  late final _$TodoBaseActionController =
+      ActionController(name: 'TodoBase', context: context);
 
   @override
   void increment() {
@@ -71,6 +88,7 @@ mixin _$stateStore on TodoBase, Store {
   String toString() {
     return '''
 value: ${value},
+token: ${token},
 description: ${description},
 done: ${done}
     ''';

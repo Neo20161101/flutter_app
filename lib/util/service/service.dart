@@ -2,51 +2,35 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
 import '../../common/cupertinoActivity/Loading.dart';
 
-var header = {"loginSource": "IOS", 'content-type': 'application/json'};
+var header = {"loginSource": "IOS", 'content-type': 'application/json; charset=utf-8','com':'123456789'};
+const localhost = 'api.spacexdata.com';
 
 class Service {
-  fetch(context, url, body, method) async {
-    // print('准备请求');
-    Loading.show(context);//加载loading
-    final httpClient = HttpClient();
-    HttpClientRequest request;
-    try {
-      if (method == 'get') {
-        request = await httpClient.getUrl(Uri.parse(url));
-        header.forEach((key, value) {
-          request.headers.set(key, value);
-        });
-      } else {
-        request = await httpClient.postUrl(Uri.parse(url));
-        header.forEach((key, value) {
-          request.headers.set(key, value);
-        });
-        // 添加请求体
-        Map jsonMap = body ?? {};
-//        Map<String, String> map1 = new Map();
-//        map1["v"] = "1.0";
-//        map1["month"] = "7";
-        request.add(utf8.encode(json.encode(jsonMap)));
-      }
+  get code => null;
 
-      HttpClientResponse response = await request.close();
-      if (response.statusCode == HttpStatus.ok) {
-        String json = await response.transform(utf8.decoder).join();
-//        String responseBody = await response.transform(utf8.decoder).join();
-        final data = jsonDecode(json);
-        Loading.dismiss(context);//取消loading
-        this.showSnackBar(context, '请求数据成功！');
-        httpClient.close();
-        return data;
-      } else {
-        this.showSnackBar(context,
-            'Error getting IP address:\nHttp status ${response.statusCode}');
-      }
-    } catch (exception) {
+  fetch(context, url, body, method) async {
+    Loading.show(context);//加载loading
+    if (method == 'get') {
+      var url1 = Uri.https(localhost, url);
+      var response = await http.get(url1,headers: header);
       Loading.dismiss(context);//取消loading
-      this.showSnackBar(context, '服务器错误！');
+      if (response.statusCode == 200) {
+        return response.body;
+      }
+      showSnackBar(context, '服务器错误！');
+      return {code:500};
+    } else {
+      var url1 = Uri.https(localhost, url);
+      var response = await http.post(url1, body: body,headers:header);
+      Loading.dismiss(context);//取消loading
+      if (response.statusCode == 200) {
+        return response.body;
+      }
+      showSnackBar(context, '服务器错误！');
+      return {code:500};
     }
   }
 

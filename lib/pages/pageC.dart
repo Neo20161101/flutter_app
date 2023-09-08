@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PageC extends StatelessWidget {
+  PageC({ super.key });
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('pageC'),
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('pageC'),
         ),
-        body: new ListView(
+        body: ListView(
           children: <Widget>[
             titleSection,
             contentSection,
@@ -21,48 +23,50 @@ class PageC extends StatelessWidget {
         ));
   }
 
-  Widget titleSection = new Container(
+  Widget titleSection = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
 //      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
+            Container(
+              decoration: const FlutterLogoDecoration(textColor:Color(0x00ffffff)),
               height: 50,
-              child: new Text('Around'),
+              child: const Text('Around'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
+            Container(
               height: 50,
-              child: new Text('Around'),
+              child: const Text('Around'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
+            Container(
               height: 50,
-              child: new Text('Around'),
+              child: const Text('Around'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Around'),
+            Container(
+              height: 50,
+              child: const Text('Around'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
+            Container(
               height: 50,
-              child: new Text('Around'),
+              child: const Text('Around'),
             )
           ],
         ),
@@ -70,309 +74,301 @@ class PageC extends StatelessWidget {
     ),
   );
 
-  Widget contentSection = new Container(
+  Widget contentSection = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
+            Container(
               decoration: BoxDecoration(
-                border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
+                border: Border.all(color: const Color.fromRGBO(255, 119, 0, 1)),
               ),
-              child: new Text('Evenly'),
+              child: const Text('Evenly'),
             )
           ],
         ),
-        new Column(
+        const Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Evenly'),
-            )
+            Text('Evenly')
           ],
         ),
-        new Column(
+        const Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Evenly'),
-            )
+            Text('Evenly')
           ],
         ),
-        new Column(
+        const Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Evenly'),
-            )
+            Text('Evenly')
           ],
         ),
-        new Column(
+        const Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Evenly'),
-            )
+            Text('Evenly')
           ],
         ),
       ],
     ),
   );
-  Widget contentSection1 = new Container(
+  Widget contentSection1 = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
+            Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
               ),
-              child: new Text('Between'),
+              child: Text('Between'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Between'),
+            Container(
+              child: Text('Between'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Between'),
+            Container(
+              child: Text('Between'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Between'),
+            Container(
+              child: Text('Between'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('Between'),
+            Container(
+              child: Text('Between'),
             )
           ],
         ),
       ],
     ),
   );
-  Widget contentSection2 = new Container(
+  Widget contentSection2 = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       children: <Widget>[
-        new Expanded(
-            child: new Container(
+        Expanded(
+            child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child: new Text('Expanded'),
+          child: Text('Expanded'),
         )),
-        new Expanded(
-          child: new Column(
+        Expanded(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              new Container(
-                child: new Text('Expanded'),
+              Container(
+                child: Text('Expanded'),
               ),
-              new Container(
-                child: new Text('Expanded'),
+              Container(
+                child: Text('Expanded'),
               )
             ],
           ),
         ),
-        new Expanded(
-          child: new Container(
-            child: new Text('Expanded'),
+        Expanded(
+          child: Container(
+            child: Text('Expanded'),
           ),
         ),
-        new Expanded(
-          child: new Container(
-            child: new Text('Expanded'),
+        Expanded(
+          child: Container(
+            child: Text('Expanded'),
           ),
         ),
-        new Expanded(
-            child: new Container(
+        Expanded(
+            child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child: new Text('Expanded'),
+          child: Text('Expanded'),
         )),
       ],
     ),
   );
-  Widget contentSection3 = new Container(
+  Widget contentSection3 = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('start2start2start2start2'),
+            Container(
+              child: Text('start2start2start2start2'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('start2'),
+            Container(
+              child: Text('start2'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('start2'),
+            Container(
+              child: Text('start2'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('start2'),
+            Container(
+              child: Text('start2'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('start2'),
+            Container(
+              child: Text('start2'),
             )
           ],
         ),
       ],
     ),
   );
-  Widget contentSection4 = new Container(
+  Widget contentSection4 = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('end3'),
+            Container(
+              child: Text('end3'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('end3'),
+            Container(
+              child: Text('end3'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('end3'),
+            Container(
+              child: Text('end3'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('end3'),
+            Container(
+              child: Text('end3'),
             )
           ],
         ),
-        new Column(
+        Column(
           children: <Widget>[
-            new Container(
-              child: new Text('end3'),
+            Container(
+              child: Text('end3'),
             )
           ],
         ),
       ],
     ),
   );
-  Widget contentSection5 = new Container(
+  Widget contentSection5 = Container(
     padding: const EdgeInsets.only(top: 32.0),
-    child: new Row(
+    child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        new Column(
+        Column(
 //          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            new Container(
-              child: new Text('spaceBetween'),
+            Container(
+              child: Text('spaceBetween'),
             )
           ],
         ),
-        new Column(
+        Column(
 //          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
-            new Container(
-              child: new Text('spaceBetween4'),
+            Container(
+              child: Text('spaceBetween4'),
             )
           ],
         ),
       ],
     ),
   );
-  Widget contentSection6(context) => new Container(
+  Widget contentSection6(context) => Container(
     padding: const EdgeInsets.only(top: 32.0),
     height: 300,
-    child: new GridView.extent(
+    child: GridView.extent(
       maxCrossAxisExtent: 80,
       padding: const EdgeInsets.all(4),
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
       children: <Widget>[
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
           height: 100,
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
-        new Container(
+        Container(
           decoration: BoxDecoration(
             border: Border.all(color: Color.fromRGBO(255, 119, 0, 1)),
           ),
-          child:new Text('GridView'),
+          child:Text('GridView'),
         ),
       ],
     ),
