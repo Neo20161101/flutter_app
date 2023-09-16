@@ -6,6 +6,8 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/notFound/bindings/not_found_binding.dart';
 import '../modules/notFound/views/not_found_view.dart';
+import '../modules/tab2/bindings/tab2_binding.dart';
+import '../modules/tab2/views/tab2_view.dart';
 import '../tabBar/tab1.dart';
 import '../tabBar/tab2.dart';
 import '../tabBar/tab3.dart';
@@ -59,6 +61,11 @@ class AppPages {
       name: _Paths.NOT_FOUND,
       page: () => const NotFoundView(),
       binding: NotFoundBinding(),
+    ),
+    GetPage(
+      name: _Paths.TAB2,
+      page: () => const Tab2View(),
+      binding: Tab2Binding(),
     ),
   ];
 }

@@ -22,7 +22,6 @@ class _TabState extends State<Tab1> {
   @override
   void didChangeDependencies(){//didMount生命周期
     debugPrint('didMount生命周期');
-    getToken();
     super.didChangeDependencies();
   }
 
@@ -30,16 +29,6 @@ class _TabState extends State<Tab1> {
   void dispose(){//离开销毁生命周期
     debugPrint('tab1,离开路由');
     super.dispose();
-  }
-
-getToken() async {
-  final token = storage.read('token');
-  if (token == '') {
-    print('跳转登录页,${token}');
-    Get.offAllNamed('/login');
-    return;
-  }
-
   }
 
   @override

@@ -11,6 +11,7 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const LOGIN = _Paths.LOGIN;
   static const NOT_FOUND = _Paths.NOT_FOUND;
+  static const TAB2 = _Paths.TAB2;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const HOME = '/home';
   static const LOGIN = '/login';
   static const NOT_FOUND = '/not-found';
+  static const TAB2 = '/tab2';
 }

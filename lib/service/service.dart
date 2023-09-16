@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:my_getx/components/loading/loading.dart';
 
 
@@ -9,20 +12,26 @@ class Service {
   get code => null;
   final header = {'content-type': 'application/json; charset=utf-8'};
   final localhost = 'api.spacexdata.com';
+  // 解决 证书过期问题
+  http.Client client() {
+    var ioClient = HttpClient();
+    ioClient.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return IOClient(ioClient);
+  }
   fetch(url, body, method) async {
     Loading.show(Get.overlayContext);//加载loading
     var response;
     try {
       switch (method) {
         case 'get':
-          response = await http.get(Uri.https(localhost, url,body),headers: header);
+          response = await client().get(Uri.https(localhost, url,body),headers: header);
           break;
         default:
-          response = await http.post(Uri.https(localhost, url), body: body,headers: header );
+          response = await client().post(Uri.https(localhost, url), body: body,headers: header );
           break;
       }
       Loading.hide(Get.overlayContext);//取消loading
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && response.statusCode <= 304) {
         return jsonDecode(response.body);
       }
       Get.snackbar('服务器错误！', '${response.statusCode}');
@@ -49,9 +58,9 @@ class Service {
         return {code:response.statusCode};
       }
     } catch (error){
-      // context ?? Loading.hide(Get.context);//取消loading
-      Get.snackbar('服务器错误！', '');
-      // context ?? showSnackBar(context, '服务器错误！');
+      Loading.hide(Get.overlayContext);//取消loading
+      Get.snackbar('服务器错误！', '$error');
+      return {code:error};
     }
 
   }

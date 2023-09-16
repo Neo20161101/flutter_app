@@ -34,7 +34,7 @@ class LoginController extends GetxController {
   void onLogin() {
     http.getTest({'shopperId': '9356', 'machineId': '5117', 'orderType': '2', 'orderId': '108'}).then((res) => {
     storage.write('token', 'João'),
-    Get.offNamed("/home")
+    Get.offNamed("/tab1")
     });
   }
 
